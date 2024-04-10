@@ -1,0 +1,4 @@
+Question: Construct a SQL query to provide each player's first login date. You can return the result table in any order.
+
+Solution: 
+select player_id,firstLogin from(select player_id,firstLogin from activity, ROW_NUMBER() over(partition by playerId order by eventDate) rn from activity) where rn=1 
