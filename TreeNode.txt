@@ -1,0 +1,20 @@
+Question: Here, id is the primary key column for this table. id represents the unique identity of a tree node and parent_id represents the unique identity of the parent of the current tree node.  The id of a node and the id of its parent node in a tree are both listed in each row of this table. There is always a valid tree in the given structure.
+Every node in the given tree can be categorized into one of the following types:
+1. "Leaf": When the tree node is a leaf node, we label it as “Leaf”
+2. "Root": When the tree node is a root node, we label it as “Root”
+3. "Inner": When the tree node is an inner node, we label it as “Inner”
+Write a SQL query to find and return the type of each of the nodes in the given tree. You can return the result in any order. 
+
+
+
+Solution: 
+
+	Select id, "Root" as Type from Tree t where t.parent_id is null
+	
+	UNION
+	
+	Select id, "Inner" as Type from Tree t where t.id in (select parent_id from Tree where parent_id is not null) where t.parent_id is not null
+	
+	UNION
+
+	Select id, "Leaf" as Type from Tree t where t.id not in (select parent_id from Tree where parent_id is not null) where parent_id.id is not null 
